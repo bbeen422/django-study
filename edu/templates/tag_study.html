@@ -6,6 +6,14 @@
 <p>
     <strong>박효빈</strong><br/>
 </p>
+<a href="{% url 'edu:new_content'%}">새글등록<a/>
+<p>
+    <ul>
+        {% for f in feed_list %}
+        <li>{{ f.content }}</li>
+        {% endfor %}
+    </ul>
+</p>
 <p>
     <a href = "https://github.com/bbeen422/" target = "_blank">
         github.com

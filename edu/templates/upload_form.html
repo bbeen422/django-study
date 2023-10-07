@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="{% url 'edu:new_content' %}" method="POST">
+        {% csrf_token %}
+        <input type="test" name="content"/>
+        <input type="submit" value="저장">
+    </form>
+{% endblock content%}
