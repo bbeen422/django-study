@@ -1,4 +1,5 @@
-from django.views.generic import View
+from typing import Any
+from django.views.generic import View, DetailView
 from django.shortcuts import get_object_or_404, render,redirect
 from .models import Feed
 
@@ -26,18 +27,21 @@ class NewContent(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        age = request.POST.get('age','0')
-        print(f"age:{age}")
-
-        pwd = request.POST.get('pwd','')
-        print(f'비밀번호:{pwd}')
-
-        tel = request.POST.get('phone','')
-        print(f'전화번호:{tel}')
         
-        age = int(age)
         param = request.POST.get('content', '')
         print("전달받은 내용:" + param)
-        feed = Feed(content=param)
+        param2 = request.FILES.get('up_photo', False)
+
+        feed = Feed(content=param, photo =param2)
         feed.save()
         return redirect('edu:tag_study')
+    
+class FeedDetail(DetailView):
+    template_name = "feed/detail.html"
+    model = Feed
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        feed = get_object_or_404(Feed, pk = self.kwargs['pk'])
+        context['feed'] = feed
+        return context
